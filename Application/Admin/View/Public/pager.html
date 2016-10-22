@@ -1,0 +1,13 @@
+<{if $pagebar.pagelist|count > 1}>
+    <div class="pagination-centered ">
+        <ul class="pagination">
+            <{$pagebar.pre}>
+            
+            <{foreach  $pagebar.pagelist as $key => $value}>
+                <{$value}>
+            <{/foreach}>
+            
+            <{$pagebar.next}>
+        </ul>
+    </div>
+<{/if}>

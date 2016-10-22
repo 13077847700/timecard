@@ -1,0 +1,70 @@
+<aside class="main-sidebar"> 
+    <section class="sidebar" style="width:230px;"> 
+        <ul class="sidebar-menu">    
+             <volist name="menu" id ="v">
+                <li  
+                    <if condition="($v['id'] eq $current['id']) OR ($v['id'] eq $current['pid']) OR ($v['id'] eq $current['ppid'])">
+                        class="treeview active"
+                        <else />
+                        class="treeview"
+                    </if>
+                >
+                    <a href="<{:U($v['name'])}>">
+                    	<!--<i class="fa fa-circle-o"></i>-->
+                        <i class="fa  <{$v.icon}>"></i> 
+                        <span > <{$v.title}>  </span>
+                        <notempty name="v.children">
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </notempty>
+                    </a>
+                    
+                    <notempty name="v.children">
+                        <ul class="treeview-menu" style="margin-left:10px;">
+                            <volist name="v.children" id ="vv">
+                                <li
+                                    <if condition="($vv['id'] eq $current['id']) OR ($vv['id'] eq $current['pid'])">
+                                        class="active"
+                                    </if>
+                                    >
+                                    <a href="<{:U($vv['name'])}>">
+                                    	<i class="<{$vv.icon}>"></i> 
+                                        <{$vv.title}>
+                                        <notempty name="vv.children">
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </notempty>
+                                    </a>
+                                    
+                                    <notempty name="vv.children">
+                                    	<ul class="treeview-menu">
+                                        	<volist name="vv.children" id ="vvv">
+                                            	<li
+                                                    <if condition="($vvv['id'] eq $current['id'])">
+                                                        class="active"
+                                                    </if>
+                                                    >
+                                                    <a href="<{:U($vvv['name'])}>">
+                                                        <i class="<{$vvv.icon}>"></i> 
+                                                        <{$vvv.title}>
+                                                        <notempty name="vvv.children">
+                                                            <span class="pull-right-container">
+                                                                <i class="fa fa-angle-left pull-right"></i>
+                                                            </span>
+                                                        </notempty>
+                                                    </a>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                    </notempty>
+                                </li>
+                            </volist>
+                        </ul>
+                    </notempty>
+                </li> 
+            </volist>
+        </ul>
+    </section>
+</aside>

@@ -1,0 +1,472 @@
+<include file="Public/header" />
+
+<div class="wrapper">
+
+<include file="Public/nav" />
+  <!-- Left side column. contains the logo and sidebar -->
+  <include file="Public/sidebar"/>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <ol class="breadcrumb" style="left:10px;font-size:16px;">
+        <li><a href="<{:U('Index/index')}>"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">留言信息</li>
+      </ol> 
+    </section>
+    <div class="clearfix" style="margin-top:40px;"></div>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form class="form-horizontal" action="<{:U('update')}>" method="post">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 姓名 </label>
+                    <div class="col-sm-3">
+                        <input type="hidden" name="uid" value="<{$member['id']}>">
+                        <input type="text" name="username" id="username" class="col-sm-12"
+                               value="<{$member['username']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 员工号 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="employee_no" id="employee_no" class="col-sm-12"
+                               value="<{$member['employee_no']}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 密码 </label>
+                    <div class="col-sm-3">
+                        <input type="password" name="password" id="password" class="col-sm-12"
+                               value="">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 用户组 </label>
+                    <div class="col-sm-3">
+                        <if condition="$member['id'] eq 1">
+                            <volist name="usergroup" id="val">
+                                <if condition="$val['id'] eq $member['group_id']">
+                                    <input type="text" class="col-sm-12" value="<{$val['title']}>"
+                                           readonly>
+                                    <input type="hidden" name="group_id" id="group_id"
+                                           class="col-sm-12" value="<{$member['group_id']}>">
+                                </if>
+                            </volist>
+
+                            <else/>
+                            <select id="group_id" name="group_id" class="col-sm-12" style="height:25px;">
+                                <volist name="usergroup" id="val">
+                                    <option value="<{$val['id']}>"
+                                    <if condition="$val['id'] eq $member['group_id']">selected="selected"
+                                    </if>
+                                    ><{$val['title']}></option>
+                                </volist>
+                            </select>
+                        </if>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 现任部门 </label>
+                    <div class="col-sm-3">
+                        <select id="now_department_id" name="now_department_id" class="col-sm-12" style="height:25px;">
+                            <volist name="department" id="now">
+                                <option value="<{$now['id']}>"
+                                <if condition="$now['id'] eq $member['now_department_id']">selected="selected"
+                                </if>
+                                ><{$now['dept_name']}></option>
+                            </volist>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 入职部门 </label>
+                    <div class="col-sm-3">
+                        <select id="in_department_id" name="in_department_id" class="col-sm-12" style="height:25px;">
+                            <volist name="department" id="in">
+                                <option value="<{$in['id']}>"
+                                <if condition="$in['id'] eq $member['in_department_id']">selected="selected"
+                                </if>
+                                ><{$in['dept_name']}></option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 现任职位 </label>
+                    <div class="col-sm-3">
+                        <select id="now_position_id" name="now_position_id" class="col-sm-12" style="height:25px;">
+                            <volist name="position" id="now2">
+                                <option value="<{$now2['id']}>"
+                                <if condition="$now2['id'] eq $member['now_position_id']">selected="selected"
+                                </if>
+                                ><{$now2['position']}></option>
+                            </volist>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 入职职位 </label>
+                    <div class="col-sm-3">
+                        <select id="in_position_id" name="in_position_id" class="col-sm-12" style="height:25px;">
+                            <volist name="position" id="in2">
+                                <option value="<{$in2['id']}>"
+                                <if condition="$in2['id'] eq $member['in_position_id']">selected="selected"
+                                </if>
+                                ><{$in2['position']}></option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 直属上级 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="superior" id="superior" class="col-sm-12"
+                               value="<{$member['superior']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 办公地 </label>
+                    <div class="col-sm-3">
+                        <select id="workaddr" name="workaddr" class="col-sm-12" style="height:25px;">
+                            <option value="0" selected="selected">深圳</option>
+                            <option value="1">广州</option>
+                            <option value="2">重庆</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 身份证号码 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="card_id" id="card_id" class="col-sm-12"
+                               value="<{$member['card_id']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 工资卡号 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="pay_card" id="pay_card" class="col-sm-12"
+                               value="<{$member['pay_card']}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 性别 </label>
+                    <div class="col-sm-3">
+                        <select id="sex" name="sex" class="col-sm-12" style="height:25px;">
+                            <option value="0" <if condition="$member['sex'] eq 0 "> selected="selected" </if> >男</option>
+                            <option value="1" <if condition="$member['sex'] eq 1 "> selected="selected" </if> >女</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 生日 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="birthday" id="birthday" class="col-sm-12"
+                               value="<{$member['birthday']|date='Y-m-d', ###}>" 
+                                placeholder="请选择日期" style="border:1px solid #A9A9A9;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 手机号码 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="phone" id="phone" class="col-sm-12"
+                               value="<{$member['phone']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 星座 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="constellation" id="constellation" class="col-sm-12"
+                               value="<{$member['constellation']}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 公司邮箱 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="company_email" id="company_email" class="col-sm-12"
+                               value="<{$member['company_email']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 入职日期 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="join_date" id="join_date" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['join_date']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 私人邮箱 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="person_email" id="person_email" class="col-sm-12"
+                               value="<{$member['person_email']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 合同签署日期 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="sign_date" id="sign_date" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['sign_date']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> QQ </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="qq" id="qq" class="col-sm-12"
+                               value="<{$member['qq']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 合同期满日期 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="full_time"  id="full_time" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['full_time']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 学历 </label>
+                    <div class="col-sm-3">
+                        <select id="degree" name="degree" class="col-sm-12" style="height:25px;">
+                            <option value="0">博士后</option>
+                            <option value="1">博士</option>
+                            <option value="2">硕士</option>
+                            <option value="3" selected="selected">本科</option>
+                            <option value="4">专科</option>
+                            <option value="5">其他</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 续签期满日期(1) </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="continue1" id="continue1" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['continue1']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 专业 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="major" id="major" class="col-sm-12"
+                               value="<{$member['major']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 续签期满日期(2) </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="continue2" id="continue2" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['continue2']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 专业院校 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="school" id="school" class="col-sm-12"
+                               value="<{$member['school']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 续签期满日期(3) </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="continue3" id="continue3" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['continue3']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 毕业时间 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="end_time" id="end_time" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['end_time']|date='Y-m-d', ###}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 是否实习 </label>
+                    <div class="col-sm-3">
+                        <label class="radio-inline">
+                          <input type="radio" name="is_internship" id="is_internship1" value="1" <if condition="$member['is_internship'] eq 1">checked </if> > 是
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="is_internship" id="is_internship2" value="2" <if condition="$member['is_internship'] eq 2">checked </if> > 否
+                        </label>
+                        <!--<input type="text" name="is_internship" id="is_internship" class="col-sm-12"
+                               value="<{$currentmenu.title}>">-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 家庭电话 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="home_tel" id="home_tel" class="col-sm-12"
+                               value="<{$member['home_tel']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 是否转正 </label>
+                    <div class="col-sm-3">
+                        <label class="radio-inline">
+                          <input type="radio" name="is_turn" id="is_turn1" value="1" <if condition="$member['is_internship'] eq 1">checked </if> > 是
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="is_turn" id="is_turn2" value="2" <if condition="$member['is_internship'] eq 2">checked </if> > 否
+                        </label>
+                        <!--<input type="text" name="is_turn" id="is_turn" class="col-sm-12"
+                               value="<{$currentmenu.title}>">-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 紧急联系人 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="urgent_contact" id="urgent_contact" class="col-sm-12"
+                               value="<{$member['urgent_contact']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 试用期过半日期 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="probation_half" id="probation_half" placeholder="请选择日期" class="col-sm-12"
+                               value="<{$member['probation_half']|date='Y-m-d', ###}>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 紧急联系人电话 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="contact_tel" id="contact_tel" class="col-sm-12"
+                               value="<{$member['contact_tel']}>">
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 试用期满日期 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="probation_full" id="probation_full" placeholder="请选择日期" class="col-sm-12"
+                               value=" <if condition="$member['probation_full'] neq 0 "> <{$member['probation_full']|date='Y-m-d', ###}> </if> ">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 是否离职 </label>
+                    <div class="col-sm-3">
+                        <label class="radio-inline">
+                          <input type="radio" name="is_leave" id="is_leave1" value="1" <if condition="$member['is_internship'] eq 1">checked </if> > 是
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="is_leave" id="is_leave2" value="2" <if condition="$member['is_internship'] eq 2">checked </if> > 否
+                        </label>
+                        <!--<input type="text" name="is_leave" id="is_leave" class="col-sm-12"
+                               value="<{$currentmenu.title}>">-->
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 离职日期 </label>
+                    <div class="col-sm-3">
+                        <input type="text" name="leave_date" id="leave_date" placeholder="请选择日期" class="col-sm-12"
+                               value=" <if condition="$member['leave_date'] neq 0 "> <{$member['leave_date']|date='Y-m-d', ###}> </if> ">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 家庭住址 </label>
+                    <div class="col-sm-3">
+                         <textarea name="home_addr" id="home_addr" placeholder="详细家庭住址" class="col-sm-12"
+                                  rows="5"><{$member['home_addr']}></textarea>
+                    </div>
+                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 户口地址 </label>
+                    <div class="col-sm-3">
+                        <textarea name="location" id="location" placeholder="户口住址" class="col-sm-12"
+                                  rows="5"><{$member['location']}></textarea>
+                    </div>
+                </div>
+
+                <div class="space-4"></div>
+                <div class="col-md-offset-5 col-md-9">
+                    <button class="btn btn-info" type="submit">
+                        <i class="icon-ok bigger-110"></i>
+                        提交
+                    </button>
+
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="reset">
+                        <i class="icon-undo bigger-110"></i>
+                        重置
+                    </button>
+                </div>
+            </form>
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+  
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+    <script src="__PUBLIC__/Resources/js/jquery.min.js" charset="UTF-8"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="__PUBLIC__/Resources/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__PUBLIC__/Resources/dist/js/app.min.js"></script>
+    
+    <script src="__PUBLIC__/Resources/js/bootbox.js"></script>
+
+    <!-- 日期插件 -->
+    <script src="__PUBLIC__/Resources/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="__PUBLIC__/Resources/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            $("#birthday").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#join_date").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#sign_date").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#full_time").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#continue1").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#continue2").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#continue3").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#end_time").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#probation_half").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#probation_full").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+            $("#leave_date").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: false,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+        });
+    </script>
+
+	<script type="text/javascript">
+
+    </script>
+    
+    </body>
+</html>
+
+

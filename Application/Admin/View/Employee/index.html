@@ -1,0 +1,237 @@
+<include file="Public/header" />
+
+<div class="wrapper">
+
+<include file="Public/nav" />
+  <!-- Left side column. contains the logo and sidebar -->
+  <include file="Public/sidebar"/>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <ol class="breadcrumb" style="left:10px;font-size:16px;">
+        <li><a href="<{:U('Index/index')}>"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">留言信息</li>
+      </ol> 
+    </section>
+    <div class="clearfix" style="margin-top:40px;"></div>
+
+    <!-- Main content -->
+    <section class="content">
+     <!-- /section:settings.box -->
+         <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="row">
+                    <form class="form-inline" action="" method="get">
+                        <a class="btn btn-info" href="<{:U('add')}>" value="">新增</a>
+                        <label class="inline">员工搜索</label>
+                        <select name="field" class="form-control">
+                            <option value="user">姓名</option>
+                            <option value="phone">电话</option>
+                            <option value="qq">QQ</option>
+                            <option value="email">邮箱</option>
+                        </select>
+                        <input type="text" name="keyword" class="form-control">
+                        <label class="inline">&nbsp;&nbsp;排序：</label>
+                        <select name="order" class="form-control">
+                            <option value="asc">注册时间升</option>
+                            <option value="desc">注册时间降</option>
+                        </select>
+                        <button type="submit" class="btn btn-purple btn-sm">
+                            <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                            搜索
+                        </button>
+                    </form>
+                </div>
+                <div class="space-4"></div>
+                <div class="row">
+                    <form id="form" method="post" action="<{:U('del')}>">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="center"><input class="check-all" type="checkbox" value=""></th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>员工号</th>
+                                <th>现任部门</th>
+                                <th>现任职位</th>
+                                <th>办公地</th>
+                                <th>直属上级</th>
+                                <th>工资卡号</th>
+                                <th>社保卡号</th>
+                                <th>手机号码</th>
+                                <th class="center">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <style>
+                                .grouptd <{
+                                    position: relative;
+                                }>
+
+                                .group <{
+                                    display: inline-block;
+                                    width: 100%;
+                                }>
+
+                                .groupselect <{
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    border: 0;
+                                }>
+                            </style>
+                            <volist name="list" id="val">
+                                <tr>
+                                    <td class="center">
+                                        <if condition="$val['id'] neq 1"><input class="uids" type="checkbox"
+                                                                                 name="uids[]"
+                                                                                 value="<{$val['id']}>">
+                                            <else/>
+                                            <span title="系统管理员，禁止删除">--</span></if>
+                                    </td>
+                                    <td><{$val['username']}></td>
+                                    <td class="center">
+                                        <?php if($val['sex'] == 0)
+                                                {
+                                                    echo '男';
+                                                } 
+                                                else if($val['sex'] == 1)
+                                                {
+                                                    echo '女';
+                                                }
+                                        ?>
+
+                                    </td>
+                                    <td class="center">
+                                        <{$val['employee_no']}>
+                                    </td>
+                                    <td class="center">
+                                        <{$val['dept_name']}>
+                                    </td>
+                                    <td class="center">
+                                        <{$val['position']}>
+                                    </td>
+                                    <td class="center"><{$val['create_time']|date="Y-m-d",###}></td>
+                                    <td><{$val['phone']}></td>
+                                    <td><{$val['qq']}></td>
+                                    <td><{$val['email']}></td>
+                                    <td class="center"><a href="#">查看详情</a>&nbsp;&nbsp;<a href="<{:U('edit')}>?uid=<{$val['id']}>">修改</a>&nbsp;
+                                        <if condition="$val['id'] neq 1"><a class="del" href="javascript:;"
+                                                                             val="<{:U('del')}>?uids=<{$val['id']}>"
+                                                                             title="删除">删除</a></if>
+                                    </td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                    </form>
+                    <div class="cf">
+                        <input id="submit" class="btn btn-info" type="button" value="删除">
+                    </div>
+                    <br>
+                    <div class="digg"><{$page}><div/>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+
+  
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="__PUBLIC__/Resources/js/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="__PUBLIC__/Resources/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__PUBLIC__/Resources/dist/js/app.min.js"></script>
+    
+    <script src="__PUBLIC__/Resources/js/bootbox.js"></script>
+    
+    <script type="text/javascript">
+    $(function () {
+        $(".group").click(function () {
+            $(this).addClass('hide');
+            $(this).parent().find(".groupselect").removeClass('hide');
+        })
+        $(".groupselect").on("change", function () {
+            var ob = $(this);
+            var gid = ob.val();
+            var uid = ob.parent().find('.group').attr('val');
+            $.get("<{:U('update')}>?ajax=yes&uid=" + uid + "&gid=" + gid, function (data) {
+                var text = ob.find("option:selected").text();
+                ob.parent().find(".group").removeClass('hide').html(text);
+                ob.addClass('hide');
+            });
+        })
+
+        $(".check-all").click(function () {
+            $(".uids").prop("checked", this.checked);
+        });
+        $(".uids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+        $("#submit").click(function () {
+            bootbox.confirm({
+                title: "系统提示",
+                message: "是否要删除所选用户？",
+                callback: function (result) {
+                    if (result) {
+                        $("#form").submit();
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $(".del").click(function () {
+            var url = $(this).attr('val');
+            bootbox.confirm({
+                title: "系统提示",
+                message: "是否要删除该用户?",
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = url;
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+    })
+</script>
+    
+    </body>
+</html>
